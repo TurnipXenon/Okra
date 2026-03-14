@@ -1,0 +1,6 @@
+.idea
+.vscode
+
+# C#/.Net specific
+*.suo
+*.user

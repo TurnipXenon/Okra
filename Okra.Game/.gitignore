@@ -1,0 +1,8 @@
+# Godot 4+ specific ignores
+.godot/
+Builds/
+
+# C# ignores
+bin
+obj
+packages
