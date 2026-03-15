@@ -1,0 +1,54 @@
+[gd_scene format=3 uid="uid://dsn0v8qabelbl"]
+
+[ext_resource type="Script" uid="uid://chaku54v7ou0v" path="res://Scenes/Okra/OkraPrototype.cs" id="1_wji21"]
+[ext_resource type="PackedScene" uid="uid://dch3lvcpcl2lt" path="res://Scenes/Okra/Prefab/hex_prefab.tscn" id="2_78itp"]
+[ext_resource type="PackedScene" uid="uid://esk3dg27po8y" path="res://Scenes/Rhythm/RhythmPlayground/slide_beat.tscn" id="7_gh4jx"]
+[ext_resource type="PackedScene" uid="uid://biqwufgdlyr5u" path="res://Scenes/Rhythm/RhythmPlayground/trigger.tscn" id="11_oejx6"]
+
+[node name="OkraPrototype" type="Node2D" unique_id=1394346189 node_paths=PackedStringArray("BtnChooseCharacter", "BtnClear", "ListLocations", "CharacterNode")]
+script = ExtResource("1_wji21")
+BtnChooseCharacter = NodePath("btn_choose_character")
+BtnClear = NodePath("btn_clear")
+ListLocations = NodePath("list_locations")
+CharacterNode = NodePath("character")
+HexPrefab = ExtResource("2_78itp")
+
+[node name="btn_choose_character" type="Button" parent="." unique_id=2117484193]
+offset_left = 800.0
+offset_top = 249.0
+offset_right = 944.0
+offset_bottom = 280.0
+action_mode = 0
+text = "Choose character"
+
+[node name="btn_clear" type="Button" parent="." unique_id=1749788866]
+offset_left = 670.0
+offset_top = 125.0
+offset_right = 719.0
+offset_bottom = 156.0
+action_mode = 0
+text = "Clear"
+
+[node name="list_locations" type="ItemList" parent="." unique_id=461043379]
+offset_left = 849.0
+offset_top = 335.0
+offset_right = 903.0
+offset_bottom = 397.0
+allow_search = false
+auto_width = true
+auto_height = true
+item_count = 2
+item_0/text = "Test"
+item_1/text = "Test2"
+
+[node name="check" parent="." unique_id=402828305 instance=ExtResource("7_gh4jx")]
+position = Vector2(67, 80)
+scale = Vector2(0.325, 0.325)
+script = null
+
+[node name="character" parent="." unique_id=1349551853 instance=ExtResource("11_oejx6")]
+z_index = 1
+position = Vector2(178, 309)
+script = null
+
+[connection signal="pressed" from="btn_choose_character" to="btn_choose_character" method="OnClick"]

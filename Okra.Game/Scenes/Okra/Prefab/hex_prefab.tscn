@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://dch3lvcpcl2lt"]
+
+[ext_resource type="Texture2D" uid="uid://corpi772is0cb" path="res://Assets/Placeholder/white_square.png" id="1_6qvlh"]
+
+[node name="hex_prefab" type="Sprite2D" unique_id=288991943]
+texture = ExtResource("1_6qvlh")
