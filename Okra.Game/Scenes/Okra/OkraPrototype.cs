@@ -33,7 +33,7 @@ public partial class OkraPrototype : Node
 
         _worldState = new WorldState();
         _worldState.MapData = SampleMapData.SimpleSample;
-        _character = new ControllableObject { MapNode = _worldState.MapData.Graph[0] };
+        _character = new ControllableObject { Position = _worldState.MapData.Graph[0] };
         _worldState.GameObjectList.Add(_character);
 
         // refresh ui
@@ -53,7 +53,7 @@ public partial class OkraPrototype : Node
             AddChild(child);
         });
 
-        CharacterNode.Position = new Vector2(_character.MapNode.Position.X, _character.MapNode.Position.Y);
+        CharacterNode.Position = new Vector2(_character.Position.Position.X, _character.Position.Position.Y);
     }
 
     // todo: when we click ListLocations we go to that location
@@ -69,7 +69,7 @@ public partial class OkraPrototype : Node
         WorldSimulator.Move(_worldState, _character, _availableNodes[(int)index]);
         
         // todo: transfer responsibility to core
-        CharacterNode.Position = new Vector2(_character.MapNode.Position.X, _character.MapNode.Position.Y);
+        CharacterNode.Position = new Vector2(_character.Position.Position.X, _character.Position.Position.Y);
         ListLocations.Clear();
         _availableNodes = WorldSimulator.CanGo(_worldState, _character).AvailableNodes;
         _availableNodes.ForEach(node =>

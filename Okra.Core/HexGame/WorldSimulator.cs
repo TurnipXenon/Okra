@@ -28,7 +28,7 @@ public static class WorldSimulator
         // todo: consider movement attribute
         return new CanGoResponse
         {
-            AvailableNodes = who.MapNode.OutgoingEdgeList
+            AvailableNodes = who.Position.OutgoingEdgeList
         };
     }
 
@@ -63,7 +63,7 @@ public static class WorldSimulator
 
         // todo: get current world state serialization
 
-        who.MapNode = where;
+        who.Position = where;
 
         return new MoveResponse();
     }

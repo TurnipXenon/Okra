@@ -51,30 +51,29 @@ public static class SampleMapData
     }
 
     // see positioning based on https://www.redblobgames.com/grids/hexagons/#spacing
-    public static readonly int VectorMultiplier = 150;
     public static MapData SimpleSample = generateMapFromSerializedMapNode([
         new SerializedMapNode
         {
             Name = "0",
-            Position = new Vector3(1, 0.5f, 0) * VectorMultiplier,
+            Position = new Vector3(1, 0.5f, 0),
             OutgoingEdgeList = ["1", "2", "3",]
         },
         new SerializedMapNode
         {
             Name = "1",
-            Position = new Vector3(2, 0.5f, 0) * VectorMultiplier,
+            Position = new Vector3(2, 0.5f, 0),
             OutgoingEdgeList = ["0", "3",]
         },
         new SerializedMapNode
         {
             Name = "2",
-            Position = new Vector3(0.5f, 1.25f, 0) * VectorMultiplier,
+            Position = new Vector3(0.5f, 1.25f, 0),
             OutgoingEdgeList = ["0", "3",]
         },
         new SerializedMapNode
         {
             Name = "3",
-            Position = new Vector3(1.5f, 1.25f, 0) * VectorMultiplier,
+            Position = new Vector3(1.5f, 1.25f, 0),
             OutgoingEdgeList = ["0", "1", "2",]
         },
     ]);
