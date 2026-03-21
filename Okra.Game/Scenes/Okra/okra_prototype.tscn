@@ -13,6 +13,7 @@ BtnClear = NodePath("btn_clear")
 ListLocations = NodePath("list_locations")
 CharacterNode = NodePath("character")
 HexPrefab = ExtResource("2_78itp")
+NodeNumber = 16
 
 [node name="btn_choose_character" type="Button" parent="." unique_id=2117484193]
 offset_left = 800.0
@@ -43,7 +44,7 @@ item_0/text = "Test"
 item_1/text = "Test2"
 
 [node name="check" parent="." unique_id=402828305 instance=ExtResource("7_gh4jx")]
-position = Vector2(67, 80)
+position = Vector2(478, 267)
 scale = Vector2(0.325, 0.325)
 script = null
 
