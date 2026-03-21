@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://chaku54v7ou0v" path="res://Scenes/Okra/OkraPrototype.cs" id="1_wji21"]
 [ext_resource type="PackedScene" uid="uid://dch3lvcpcl2lt" path="res://Scenes/Okra/Prefab/hex_prefab.tscn" id="2_78itp"]
+[ext_resource type="Script" uid="uid://bl34bmmh5vq8j" path="res://Scenes/Okra/Scripts/ControllablePawn.cs" id="5_te7dg"]
 [ext_resource type="PackedScene" uid="uid://esk3dg27po8y" path="res://Scenes/Rhythm/RhythmPlayground/slide_beat.tscn" id="7_gh4jx"]
 [ext_resource type="PackedScene" uid="uid://biqwufgdlyr5u" path="res://Scenes/Rhythm/RhythmPlayground/trigger.tscn" id="11_oejx6"]
 
@@ -49,6 +50,7 @@ script = null
 [node name="character" parent="." unique_id=1349551853 instance=ExtResource("11_oejx6")]
 z_index = 1
 position = Vector2(178, 309)
-script = null
+script = ExtResource("5_te7dg")
+AnimationSpeed = 200.0
 
 [connection signal="pressed" from="btn_choose_character" to="btn_choose_character" method="OnClick"]

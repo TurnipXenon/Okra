@@ -1,9 +1,10 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Okra.Core.HexGame;
 
-public static class WorldSimulator
+public static partial class WorldSimulator
 {
     // # Non-mutating functions
     public static IEnumerable<IControllable> GetControllables(WorldState state)
@@ -35,12 +36,6 @@ public static class WorldSimulator
     // # Mutating functions
     // mutate world state and spit out previous world state in serialized form
     // also tell if mutation failed, no mutation, or there is a mutation
-    public enum MutationState
-    {
-        Failed,
-        Mutated,
-        NoMutation, // not sure if we should use this one?
-    }
 
     public class MoveResponse
     {
@@ -48,6 +43,8 @@ public static class WorldSimulator
 
         public MutationState MutationState = MutationState.Mutated;
         // todo: serialized version of the old world state
+
+        public List<Task<MutationState>> PawnTaskList = new();
     }
 
     public static MoveResponse Move(WorldState state, IControllable who, MapNode where)
@@ -61,10 +58,12 @@ public static class WorldSimulator
             };
         }
 
-        // todo: get current world state serialization
-
-        who.Position = where;
-
-        return new MoveResponse();
+        var resp = new MoveResponse();
+        var t = who.SetPosition(where);
+        if (t != null)
+        {
+            resp.PawnTaskList.Add(t);
+        }
+        return resp;
     }
 }

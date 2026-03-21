@@ -1,8 +1,10 @@
+using System.Threading.Tasks;
 using Godot;
 
 namespace Okra.Core.HexGame;
 
 public interface IControllablePawn
 {
-    void SetPosition(Vector3 position);
+    Task<MutationState> SetPosition(Vector3 position);
+    void ForcePosition(Vector3 position);
 }

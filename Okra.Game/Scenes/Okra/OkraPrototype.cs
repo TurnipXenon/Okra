@@ -1,7 +1,10 @@
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Threading.Tasks;
 using Godot;
 using Okra.Core.HexGame;
+using Okra.Game.Scenes.Okra.Scripts;
+using System;
 
 namespace Okra.Game.Scenes.Okra;
 
@@ -14,7 +17,7 @@ public partial class OkraPrototype : Node
     [Export] public ItemList ListLocations;
 
     // GameObjects
-    [Export] public Node2D CharacterNode;
+    [Export] public ControllablePawn CharacterNode;
 
     // Prototypes
     [Export] public PackedScene HexPrefab;
@@ -33,16 +36,14 @@ public partial class OkraPrototype : Node
 
         _worldState = new WorldState();
         _worldState.MapData = SampleMapData.SimpleSample;
-        _character = new ControllableObject { Position = _worldState.MapData.Graph[0] };
+        _character = new ControllableObject();
+        _character.SetPosition(_worldState.MapData.Graph[0]);
         _worldState.GameObjectList.Add(_character);
 
         // refresh ui
         ListLocations.Clear();
         _availableNodes = WorldSimulator.CanGo(_worldState, _character).AvailableNodes;
-        _availableNodes.ForEach(node =>
-        {
-            ListLocations.AddItem($"Node: {node.Name}");
-        });
+        _availableNodes.ForEach(node => { ListLocations.AddItem($"Node: {node.Name}"); });
         ListLocations.ItemClicked += _listLocations_OnItem_Clicked;
 
         // generate hex
@@ -54,27 +55,33 @@ public partial class OkraPrototype : Node
         });
 
         CharacterNode.Position = new Vector2(_character.Position.Position.X, _character.Position.Position.Y);
+        _character.ControllablePawn = CharacterNode;
     }
 
     // todo: when we click ListLocations we go to that location
+    
+    
+
+    private void UpdateAvailableNodes()
+    {
+        _availableNodes = WorldSimulator.CanGo(_worldState, _character).AvailableNodes;
+        _availableNodes.ForEach(node => { ListLocations.AddItem($"Node: {node.Name}"); });
+    }
 
     private void _listLocations_OnItem_Clicked(long index, Vector2 atPosition, long mouseButtonIndex)
     {
         if (index >= _availableNodes.Count)
         {
-            // todo: warning here
+            Debug.WriteLine("Warning: Index out of range: " + System.Environment.StackTrace);
             return;
         }
 
-        WorldSimulator.Move(_worldState, _character, _availableNodes[(int)index]);
-        
-        // todo: transfer responsibility to core
-        CharacterNode.Position = new Vector2(_character.Position.Position.X, _character.Position.Position.Y);
         ListLocations.Clear();
-        _availableNodes = WorldSimulator.CanGo(_worldState, _character).AvailableNodes;
-        _availableNodes.ForEach(node =>
+        var moveResponse = WorldSimulator.Move(_worldState, _character, _availableNodes[(int)index]);
+
+        Task.WhenAll(moveResponse.PawnTaskList).ContinueWith(_ =>
         {
-            ListLocations.AddItem($"Node: {node.Name}");
+            CallDeferred(MethodName.UpdateAvailableNodes);
         });
     }
 }
