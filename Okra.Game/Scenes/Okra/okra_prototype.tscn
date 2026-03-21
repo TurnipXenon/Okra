@@ -6,13 +6,14 @@
 [ext_resource type="PackedScene" uid="uid://esk3dg27po8y" path="res://Scenes/Rhythm/RhythmPlayground/slide_beat.tscn" id="7_gh4jx"]
 [ext_resource type="PackedScene" uid="uid://biqwufgdlyr5u" path="res://Scenes/Rhythm/RhythmPlayground/trigger.tscn" id="11_oejx6"]
 
-[node name="OkraPrototype" type="Node2D" unique_id=1394346189 node_paths=PackedStringArray("BtnChooseCharacter", "BtnClear", "ListLocations", "CharacterNode")]
+[node name="OkraPrototype" type="Node2D" unique_id=1394346189 node_paths=PackedStringArray("BtnChooseCharacter", "BtnClear", "CharacterNode", "HexOrigin", "ListLocations")]
 script = ExtResource("1_wji21")
 BtnChooseCharacter = NodePath("btn_choose_character")
 BtnClear = NodePath("btn_clear")
-ListLocations = NodePath("list_locations")
 CharacterNode = NodePath("character")
+HexOrigin = NodePath("hex_origin")
 HexPrefab = ExtResource("2_78itp")
+ListLocations = NodePath("list_locations")
 NodeNumber = 16
 
 [node name="btn_choose_character" type="Button" parent="." unique_id=2117484193]
@@ -43,7 +44,7 @@ item_count = 2
 item_0/text = "Test"
 item_1/text = "Test2"
 
-[node name="check" parent="." unique_id=402828305 instance=ExtResource("7_gh4jx")]
+[node name="hex_origin" parent="." unique_id=402828305 instance=ExtResource("7_gh4jx")]
 position = Vector2(478, 267)
 scale = Vector2(0.325, 0.325)
 script = null

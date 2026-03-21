@@ -48,22 +48,23 @@ public class MapData
             3f * point.Y / 2f);
     }
 
-    public static MapData Generate(Vector3 gameOrigin, int nodeCount)
+    public void Generate(int nodeCount)
     {
-        var mapData = new MapData();
+        Graph.Clear();
+
         if (nodeCount < 1)
         {
             Debug.WriteLine($"MapData.Generate: Invalid nodeCount: {nodeCount}");
-            return mapData;
+            return;
         }
 
         var nodeQueue = new Queue<MapNode>();
         var currentNode = new MapNode
         {
-            Parent = mapData,
+            Parent = this,
             HexPosition = new Vector3I(0, 0, 0),
         };
-        mapData.Graph.Add(
+        Graph.Add(
             currentNode.HexPosition,
             currentNode
         );
@@ -77,7 +78,7 @@ public class MapData
                 currentNode = nodeQueue.Dequeue();
             }
 
-            if (mapData.Graph.ContainsKey(currentNode.HexPosition + HexOffset[offsetIdx]))
+            if (Graph.ContainsKey(currentNode.HexPosition + HexOffset[offsetIdx]))
             {
                 // retry loop
                 i--;
@@ -87,13 +88,11 @@ public class MapData
 
             var newNode = new MapNode
             {
-                Parent = mapData,
+                Parent = this,
                 HexPosition = currentNode.HexPosition + HexOffset[offsetIdx],
             };
             nodeQueue.Enqueue(newNode);
-            mapData.Graph.Add(newNode.HexPosition, newNode);
+            Graph.Add(newNode.HexPosition, newNode);
         }
-
-        return mapData;
     }
 }
