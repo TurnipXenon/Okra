@@ -1,13 +1,15 @@
 [gd_scene format=3 uid="uid://dsn0v8qabelbl"]
 
 [ext_resource type="Script" uid="uid://chaku54v7ou0v" path="res://Scenes/Okra/OkraPrototype.cs" id="1_wji21"]
-[ext_resource type="PackedScene" uid="uid://dch3lvcpcl2lt" path="res://Scenes/Okra/Prefab/hex_prefab.tscn" id="2_78itp"]
+[ext_resource type="PackedScene" uid="uid://dch3lvcpcl2lt" path="res://Scenes/Okra/Prefabs/hex_pawn/hex_pawn.tscn" id="2_78itp"]
 [ext_resource type="Script" uid="uid://bl34bmmh5vq8j" path="res://Scenes/Okra/Scripts/ControllablePawn.cs" id="5_te7dg"]
 [ext_resource type="Script" uid="uid://p3fie88drwpa" path="res://Scenes/Okra/Scripts/OkraCamera.cs" id="6_yp0i3"]
+[ext_resource type="Texture2D" uid="uid://c22e4epybpmsb" path="res://Scenes/Okra/Prefabs/target/target.png" id="7_0cqha"]
 [ext_resource type="PackedScene" uid="uid://esk3dg27po8y" path="res://Scenes/Rhythm/RhythmPlayground/slide_beat.tscn" id="7_gh4jx"]
+[ext_resource type="Script" uid="uid://kblie5ucyeb6" path="res://Scenes/Okra/Prefabs/target/Target.cs" id="8_oh52d"]
 [ext_resource type="PackedScene" uid="uid://biqwufgdlyr5u" path="res://Scenes/Rhythm/RhythmPlayground/trigger.tscn" id="11_oejx6"]
 
-[node name="OkraPrototype" type="Node2D" unique_id=1394346189 node_paths=PackedStringArray("BtnChooseCharacter", "BtnClear", "CharacterNode", "HexOrigin", "ListLocations")]
+[node name="OkraPrototype" type="Node2D" unique_id=1394346189 node_paths=PackedStringArray("BtnChooseCharacter", "BtnClear", "CharacterNode", "HexOrigin", "ListLocations", "Target")]
 script = ExtResource("1_wji21")
 BtnChooseCharacter = NodePath("camera_2d/btn_choose_character")
 BtnClear = NodePath("camera_2d/btn_clear")
@@ -15,13 +17,14 @@ CharacterNode = NodePath("character")
 HexOrigin = NodePath("hex_origin")
 HexPrefab = ExtResource("2_78itp")
 ListLocations = NodePath("camera_2d/list_locations")
-NodeNumber = 16
+NodeNumber = 64
+Target = NodePath("target")
 
 [node name="character" parent="." unique_id=1349551853 instance=ExtResource("11_oejx6")]
 z_index = 1
 position = Vector2(476, 251)
 script = ExtResource("5_te7dg")
-AnimationSpeed = 200.0
+MovementSpeed = 150.0
 
 [node name="hex_origin" parent="." unique_id=402828305 instance=ExtResource("7_gh4jx")]
 position = Vector2(478, 267)
@@ -32,7 +35,7 @@ script = null
 position = Vector2(479, 266)
 script = ExtResource("6_yp0i3")
 MovementSpeed = 600.0
-Target = NodePath("../character")
+Target = NodePath("../target")
 
 [node name="btn_choose_character" type="Button" parent="camera_2d" unique_id=2117484193]
 z_index = 10
@@ -64,5 +67,11 @@ auto_height = true
 item_count = 2
 item_0/text = "Test"
 item_1/text = "Test2"
+
+[node name="target" type="Sprite2D" parent="." unique_id=466347001]
+position = Vector2(477, 256)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("7_0cqha")
+script = ExtResource("8_oh52d")
 
 [connection signal="pressed" from="camera_2d/btn_choose_character" to="camera_2d/btn_choose_character" method="OnClick"]

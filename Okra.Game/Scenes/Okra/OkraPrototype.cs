@@ -3,6 +3,8 @@ using System.Diagnostics;
 using System.Threading.Tasks;
 using Godot;
 using Okra.Core.HexGame;
+using Okra.Game.Scenes.Okra.Prefabs.hex_pawn;
+using Okra.Game.Scenes.Okra.Prefabs.target;
 using Okra.Game.Scenes.Okra.Scripts;
 using Environment = System.Environment;
 
@@ -11,10 +13,14 @@ namespace Okra.Game.Scenes.Okra;
 // scene manager
 public partial class OkraPrototype : Node
 {
+    public enum StateType
+    {
+        Preparing,
+        Ready,
+    }
+
     private List<MapNode> _availableNodes;
     private ControllableObject _character;
-
-    private WorldState _worldState;
 
     // UI
     [Export] public Button BtnChooseCharacter;
@@ -30,7 +36,12 @@ public partial class OkraPrototype : Node
 
     // Variables
     [Export] public int NodeNumber = 4;
+
+    public StateType State = StateType.Preparing;
+    [Export] public Target Target;
     [Export] public float VectorMultiplier = 100;
+
+    public WorldState WorldState;
 
     public override void _Ready()
     {
@@ -42,33 +53,36 @@ public partial class OkraPrototype : Node
         Debug.Assert(HexOrigin != null, "HexOrigin != null");
         Debug.Assert(NodeNumber >= 4, "NodeNumber >= 4");
 
+        Debug.Assert(Target != null, "Target != null");
+        Target.OkraPrototype = this;
+
         // todo: defer in the future?
 
-        _worldState = new WorldState();
-        _worldState.MapData.SetGameOrigin(new Vector3(HexOrigin.Position.X, HexOrigin.Position.Y, 0));
-        _worldState.MapData.SetVectorMultiplier(VectorMultiplier);
-        _worldState.MapData.Generate(NodeNumber);
+        WorldState = new WorldState();
+        WorldState.MapData.SetGameOrigin(new Vector3(HexOrigin.Position.X, HexOrigin.Position.Y, 0));
+        WorldState.MapData.SetVectorMultiplier(VectorMultiplier);
+        WorldState.MapData.Generate(NodeNumber);
         _character = new ControllableObject();
-        _character.SetPosition(_worldState.MapData.Graph[Vector3I.Zero]);
-        _worldState.GameObjectList.Add(_character);
+        _character.SetPosition(WorldState.MapData.Graph[Vector3I.Zero]);
+        WorldState.GameObjectList.Add(_character);
 
         // refresh ui
         ListLocations.Clear();
-        _availableNodes = WorldSimulator.CanGo(_worldState, _character).AvailableNodes;
+        _availableNodes = WorldSimulator.CanGo(WorldState, _character).AvailableNodes;
         _availableNodes.ForEach(node => { ListLocations.AddItem($"Node: {node.Name}"); });
         ListLocations.ItemClicked += _listLocations_OnItem_Clicked;
 
         // generate hex
-        foreach (var keyValuePair in _worldState.MapData.Graph)
+        foreach (var keyValuePair in WorldState.MapData.Graph)
         {
-            var child = HexPrefab.Instantiate<Node2D>();
-            var v3 = keyValuePair.Value.GamePosition;
-            child.Position = new Vector2(v3.X, v3.Y);
-            AddChild(child);
+            var child = HexPrefab.Instantiate<HexPawn>();
+            child.SetMapNode(keyValuePair.Value, this);
         }
 
         CharacterNode.Position = new Vector2(_character.Position.GamePosition.X, _character.Position.GamePosition.Y);
         _character.ControllablePawn = CharacterNode;
+
+        State = StateType.Ready;
     }
 
     // todo: when we click ListLocations we go to that location
@@ -76,7 +90,7 @@ public partial class OkraPrototype : Node
 
     private void UpdateAvailableNodes()
     {
-        _availableNodes = WorldSimulator.CanGo(_worldState, _character).AvailableNodes;
+        _availableNodes = WorldSimulator.CanGo(WorldState, _character).AvailableNodes;
         _availableNodes.ForEach(node => { ListLocations.AddItem($"Node: {node.Name}"); });
     }
 
@@ -89,7 +103,7 @@ public partial class OkraPrototype : Node
         }
 
         ListLocations.Clear();
-        var moveResponse = WorldSimulator.Move(_worldState, _character, _availableNodes[(int)index]);
+        var moveResponse = WorldSimulator.Move(WorldState, _character, _availableNodes[(int)index]);
 
         Task.WhenAll(moveResponse.PawnTaskList).ContinueWith(_ => { CallDeferred(MethodName.UpdateAvailableNodes); });
     }

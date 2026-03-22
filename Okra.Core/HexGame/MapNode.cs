@@ -46,4 +46,6 @@ public class MapNode
             return _gamePosition;
         }
     }
+
+    public IMapNodePawn Pawn { get; set; }
 }

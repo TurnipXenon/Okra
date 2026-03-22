@@ -21,7 +21,6 @@ public partial class OkraCamera : Camera2D
 
         if (Target.Position != Position)
         {
-            GD.Print($"Cam:  {Position} Target: {Target.Position}");
             Position = Position.MoveToward(Target.Position, (float)delta * MovementSpeed);
         }
     }
