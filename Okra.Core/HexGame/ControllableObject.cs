@@ -6,19 +6,17 @@ public class ControllableObject : OkraObject, IControllable
 {
     public IControllablePawn? ControllablePawn { get; set; }
 
-    private MapNode _position = new();
-
-    public MapNode Position => _position;
+    public MapNode? Position { get; private set; }
 
     public Task<MutationState>? SetPosition(MapNode mapNode)
     {
-        _position = mapNode;
+        Position = mapNode;
         return ControllablePawn?.SetPosition(mapNode.GamePosition);
     }
 
     public void ForcePosition(MapNode mapNode)
     {
-        _position = mapNode;
+        Position = mapNode;
         ControllablePawn?.ForcePosition(mapNode.GamePosition);
     }
 }

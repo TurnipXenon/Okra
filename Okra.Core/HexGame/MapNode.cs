@@ -6,16 +6,30 @@ namespace Okra.Core.HexGame;
 // assume as pointy top hex
 public class MapNode
 {
-    // todo: maybe not needed anymore since we can infer outgoing using Parent
-    public readonly List<MapNode> OutgoingEdgeList = [];
-
+    // todo: calculated based on Parent Origin + Grid Position
     private Vector3 _gamePosition;
 
-
-    // todo: calculated based on Parent Origin + Grid Position
     public Vector3I HexPosition = Vector3I.Zero;
+
+    // todo: cache?
+    public List<MapNode> OutgoingEdgeList
+    {
+        get
+        {
+            List<MapNode> neighborNodes = [];
+            MapData.HexOffset.ForEach(offset =>
+            {
+                if (Parent.Graph.TryGetValue(HexPosition + offset, out var possibleNeighbor))
+                {
+                    neighborNodes.Add(possibleNeighbor);
+                }
+            });
+            return neighborNodes;
+        }
+    }
+
     public string Name => $"Node {HexPosition.ToString()}";
-    public MapData Parent { get; set; }
+    public required MapData Parent { get; init; }
 
     public Vector3 GamePosition
     {

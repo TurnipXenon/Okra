@@ -3,40 +3,61 @@
 [ext_resource type="Script" uid="uid://chaku54v7ou0v" path="res://Scenes/Okra/OkraPrototype.cs" id="1_wji21"]
 [ext_resource type="PackedScene" uid="uid://dch3lvcpcl2lt" path="res://Scenes/Okra/Prefab/hex_prefab.tscn" id="2_78itp"]
 [ext_resource type="Script" uid="uid://bl34bmmh5vq8j" path="res://Scenes/Okra/Scripts/ControllablePawn.cs" id="5_te7dg"]
+[ext_resource type="Script" uid="uid://p3fie88drwpa" path="res://Scenes/Okra/Scripts/OkraCamera.cs" id="6_yp0i3"]
 [ext_resource type="PackedScene" uid="uid://esk3dg27po8y" path="res://Scenes/Rhythm/RhythmPlayground/slide_beat.tscn" id="7_gh4jx"]
 [ext_resource type="PackedScene" uid="uid://biqwufgdlyr5u" path="res://Scenes/Rhythm/RhythmPlayground/trigger.tscn" id="11_oejx6"]
 
 [node name="OkraPrototype" type="Node2D" unique_id=1394346189 node_paths=PackedStringArray("BtnChooseCharacter", "BtnClear", "CharacterNode", "HexOrigin", "ListLocations")]
 script = ExtResource("1_wji21")
-BtnChooseCharacter = NodePath("btn_choose_character")
-BtnClear = NodePath("btn_clear")
+BtnChooseCharacter = NodePath("camera_2d/btn_choose_character")
+BtnClear = NodePath("camera_2d/btn_clear")
 CharacterNode = NodePath("character")
 HexOrigin = NodePath("hex_origin")
 HexPrefab = ExtResource("2_78itp")
-ListLocations = NodePath("list_locations")
+ListLocations = NodePath("camera_2d/list_locations")
 NodeNumber = 16
 
-[node name="btn_choose_character" type="Button" parent="." unique_id=2117484193]
-offset_left = 800.0
-offset_top = 249.0
-offset_right = 944.0
-offset_bottom = 280.0
+[node name="character" parent="." unique_id=1349551853 instance=ExtResource("11_oejx6")]
+z_index = 1
+position = Vector2(476, 251)
+script = ExtResource("5_te7dg")
+AnimationSpeed = 200.0
+
+[node name="hex_origin" parent="." unique_id=402828305 instance=ExtResource("7_gh4jx")]
+position = Vector2(478, 267)
+scale = Vector2(0.325, 0.325)
+script = null
+
+[node name="camera_2d" type="Camera2D" parent="." unique_id=1020047715 node_paths=PackedStringArray("Target")]
+position = Vector2(479, 266)
+script = ExtResource("6_yp0i3")
+MovementSpeed = 600.0
+Target = NodePath("../character")
+
+[node name="btn_choose_character" type="Button" parent="camera_2d" unique_id=2117484193]
+z_index = 10
+offset_left = 321.0
+offset_top = -17.0
+offset_right = 465.0
+offset_bottom = 14.0
 action_mode = 0
 text = "Choose character"
 
-[node name="btn_clear" type="Button" parent="." unique_id=1749788866]
-offset_left = 670.0
-offset_top = 125.0
-offset_right = 719.0
-offset_bottom = 156.0
+[node name="btn_clear" type="Button" parent="camera_2d" unique_id=1749788866]
+z_index = 10
+offset_left = 376.0
+offset_top = -209.0
+offset_right = 425.0
+offset_bottom = -178.0
 action_mode = 0
 text = "Clear"
 
-[node name="list_locations" type="ItemList" parent="." unique_id=461043379]
-offset_left = 849.0
-offset_top = 335.0
-offset_right = 903.0
-offset_bottom = 397.0
+[node name="list_locations" type="ItemList" parent="camera_2d" unique_id=461043379]
+z_index = 10
+offset_left = 250.0
+offset_top = 65.0
+offset_right = 304.0
+offset_bottom = 127.0
 allow_search = false
 auto_width = true
 auto_height = true
@@ -44,15 +65,4 @@ item_count = 2
 item_0/text = "Test"
 item_1/text = "Test2"
 
-[node name="hex_origin" parent="." unique_id=402828305 instance=ExtResource("7_gh4jx")]
-position = Vector2(478, 267)
-scale = Vector2(0.325, 0.325)
-script = null
-
-[node name="character" parent="." unique_id=1349551853 instance=ExtResource("11_oejx6")]
-z_index = 1
-position = Vector2(178, 309)
-script = ExtResource("5_te7dg")
-AnimationSpeed = 200.0
-
-[connection signal="pressed" from="btn_choose_character" to="btn_choose_character" method="OnClick"]
+[connection signal="pressed" from="camera_2d/btn_choose_character" to="camera_2d/btn_choose_character" method="OnClick"]
