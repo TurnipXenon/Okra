@@ -1,5 +1,7 @@
 using System.Threading.Tasks;
 using Godot;
+using Okra.Core.HexGame;
+using Okra.Game.Scenes.Okra.Prefabs.hex_pawn;
 
 namespace Okra.Game.Scenes.Okra.Prefabs.target;
 
@@ -8,11 +10,11 @@ public partial class Target : Node2D
     [Export] public float MovementSpeed = 200f;
     public OkraPrototype OkraPrototype;
 
-    public Node2D TargetNode;
+    public HexPawn TargetNode;
 
     private void TargetCharacterDefault()
     {
-        TargetNode = (Node2D)OkraPrototype.WorldState.MapData.Graph[Vector3I.Zero].Pawn;
+        TargetNode = (HexPawn)OkraPrototype.WorldState.MapData.Graph[Vector3I.Zero].Pawn;
     }
 
     private async Task WaitForReady()
@@ -40,6 +42,37 @@ public partial class Target : Node2D
         if (TargetNode.Position != Position)
         {
             Position = Position.MoveToward(TargetNode.Position, (float)delta * MovementSpeed);
+        }
+    }
+
+    public override void _UnhandledInput(InputEvent @event)
+    {
+        var offset = Vector3I.Zero;
+        if (@event.IsActionPressed("ui_left"))
+        {
+            offset = MapData.HexLeft;
+        }
+        else if (@event.IsActionPressed("ui_right"))
+        {
+            offset = MapData.HexRight;
+        }
+        else if (@event.IsActionPressed("ui_up"))
+        {
+            offset = MapData.HexUp;
+        }
+        else if (@event.IsActionPressed("ui_down"))
+        {
+            offset = MapData.HexDown;
+        }
+
+        if (offset != Vector3I.Zero)
+        {
+            var currentVector = TargetNode.MapNode.HexPosition;
+            if (OkraPrototype.WorldState.MapData.Graph.TryGetValue(currentVector + offset,
+                    out var mapNode))
+            {
+                TargetNode = (HexPawn)mapNode.Pawn;
+            }
         }
     }
 }

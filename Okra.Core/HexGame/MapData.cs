@@ -9,15 +9,20 @@ namespace Okra.Core.HexGame;
  */
 public class MapData
 {
+    public static readonly Vector3I HexUp = new(1, -1, 0);
+    public static readonly Vector3I HexDown = new(-1, 1, 0);
+    public static readonly Vector3I HexRight = new(1, 0, -1);
+    public static readonly Vector3I HexLeft = new(-1, 0, 1);
+
     public static readonly List<Vector3I> HexOffset =
     [
         // q, r, s
         new(0, -1, 1),
-        new(1, -1, 0),
-        new(1, 0, -1),
+        HexUp,
+        HexRight,
         new(0, 1, -1),
-        new(-1, 1, 0),
-        new(-1, 0, 1),
+        HexDown,
+        HexLeft,
     ];
 
     public readonly HashSet<Vector3I> CalculatedNode = [];
