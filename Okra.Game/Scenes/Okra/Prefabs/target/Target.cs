@@ -8,6 +8,7 @@ namespace Okra.Game.Scenes.Okra.Prefabs.target;
 
 public partial class Target : Node2D, ISelector
 {
+    private bool _ignoreInput;
     [Export] public float MovementSpeed = 200f;
     public OkraPrototype OkraPrototype;
 
@@ -17,6 +18,12 @@ public partial class Target : Node2D, ISelector
     public MapNode GetPositionNode()
     {
         return TargetPositionNode.MapNode;
+    }
+
+    public void RequestCancellation()
+    {
+        SelectedItem?.InformSelectionCancelled();
+        SelectedItem = null;
     }
 
     private void TargetCharacterDefault()
@@ -54,6 +61,13 @@ public partial class Target : Node2D, ISelector
 
     public override void _UnhandledInput(InputEvent @event)
     {
+        if (_ignoreInput)
+        {
+            return;
+        }
+
+        _ignoreInput = true;
+
         // when i click enter, check state
         // unselected state: interact with current objects
         // selected state: do stuff when enter again
@@ -74,10 +88,15 @@ public partial class Target : Node2D, ISelector
                     // todo: ui that there is no selected item
                     GD.Print($"No selectable item in current hex {TargetPositionNode.MapNode.HexPosition}");
                 }
+
+                _ignoreInput = false;
+                return;
             }
 
             // if SelectedItem != null
             // move all input handling to SelectedItem
+            // todo: lock the input here
+            SelectedItem.UnhandledInputFromSelector(@event).ContinueWith(_ => { _ignoreInput = false; });
             return;
         }
 
@@ -86,10 +105,10 @@ public partial class Target : Node2D, ISelector
         {
             if (SelectedItem != null)
             {
-                SelectedItem.InformSelectionCancelled();
-                SelectedItem = null;
+                RequestCancellation();
             }
 
+            _ignoreInput = false;
             return;
         }
 
@@ -122,5 +141,7 @@ public partial class Target : Node2D, ISelector
 
             SelectedItem?.InformSelectorStateChanged();
         }
+
+        _ignoreInput = false;
     }
 }

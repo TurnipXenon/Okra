@@ -63,6 +63,7 @@ public partial class OkraPrototype : Node
         WorldState.MapData.SetVectorMultiplier(VectorMultiplier);
         WorldState.MapData.Generate(NodeNumber);
         _character = new ControllableObject();
+        _character.SetWorldState(WorldState);
         _character.SetPosition(WorldState.MapData.Graph[Vector3I.Zero]);
         WorldState.GameObjectList.Add(_character);
 

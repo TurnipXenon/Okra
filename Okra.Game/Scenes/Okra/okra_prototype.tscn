@@ -25,7 +25,8 @@ z_index = 1
 position = Vector2(476, 251)
 script = ExtResource("5_te7dg")
 CharacterLine = NodePath("../character_line2d")
-MovementSpeed = 150.0
+MaxWalkDistance = 5
+MovementSpeed = 750.0
 
 [node name="character_line2d" type="Line2D" parent="." unique_id=325579531]
 z_index = 9
