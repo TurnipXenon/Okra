@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using Godot;
 
 namespace Okra.Core.HexGame;
@@ -48,4 +49,36 @@ public class MapNode
     }
 
     public IMapNodePawn Pawn { get; set; }
+
+    public List<MapNode> FindShortestPathTo(MapNode destination)
+    {
+        // todo: go through all neighbors starting with the one with the lowest heuristic
+        // todo: have a list of visited nodes
+        HashSet<Vector3I> visitedNodes = [];
+        PriorityQueue<List<MapNode>, float> pathQueue = new();
+        pathQueue.Enqueue([this,], HexPosition.DistanceTo(destination.HexPosition));
+
+        while (pathQueue.Count > 0)
+        {
+            var currentPath = pathQueue.Dequeue();
+            var currentNode = currentPath.Last();
+            if (currentNode.HexPosition == destination.HexPosition)
+            {
+                return currentPath;
+            }
+
+            var currentNeighbors = currentNode.OutgoingEdgeList;
+            currentNeighbors.ForEach(cn =>
+            {
+                if (visitedNodes.Add(cn.HexPosition))
+                {
+                    var newPath = currentPath.ToList();
+                    newPath.Add(cn);
+                    pathQueue.Enqueue(newPath, cn.HexPosition.DistanceTo(destination.HexPosition));
+                }
+            });
+        }
+
+        return [];
+    }
 }

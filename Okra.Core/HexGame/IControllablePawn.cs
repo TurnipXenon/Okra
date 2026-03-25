@@ -3,8 +3,8 @@ using Godot;
 
 namespace Okra.Core.HexGame;
 
-public interface IControllablePawn
+public interface IControllablePawn : ISelectable
 {
-    Task<MutationState> SetPosition(Vector3 position);
+    Task<MutationState> SetPosition(MapNode positionNode);
     void ForcePosition(Vector3 position);
 }

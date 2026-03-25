@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace Okra.Core.HexGame;
 
-public static partial class WorldSimulator
+public static class WorldSimulator
 {
     // # Non-mutating functions
     public static IEnumerable<IControllable> GetControllables(WorldState state)
@@ -17,34 +17,23 @@ public static partial class WorldSimulator
         return state.GameObjectList.First(o => o.Name == name);
     }
 
-    public class CanGoResponse
-    {
-        public string Reason = "";
-        public List<MapNode> AvailableNodes = [];
-    }
-
     public static CanGoResponse CanGo(WorldState state, IControllable who)
     {
         // todo: consider terrains
         // todo: consider movement attribute
         return new CanGoResponse
         {
-            AvailableNodes = who.Position.OutgoingEdgeList
+            AvailableNodes = who.Position.OutgoingEdgeList,
         };
     }
 
-    // # Mutating functions
-    // mutate world state and spit out previous world state in serialized form
-    // also tell if mutation failed, no mutation, or there is a mutation
-
-    public class MoveResponse
+    /**
+     * Excludes map nodes since you can grab map nodes by using Graph[Vector3I]
+     */
+    public static IEnumerable<IPositionable> GetObjectsAt(WorldState state, MapNode where)
     {
-        public string Reason = "";
-
-        public MutationState MutationState = MutationState.Mutated;
-        // todo: serialized version of the old world state
-
-        public List<Task<MutationState>> PawnTaskList = new();
+        return state.GameObjectList.OfType<IPositionable>()
+            .Where(positionable => positionable.Position.HexPosition == where.HexPosition);
     }
 
     public static MoveResponse Move(WorldState state, IControllable who, MapNode where)
@@ -64,6 +53,26 @@ public static partial class WorldSimulator
         {
             resp.PawnTaskList.Add(t);
         }
+
         return resp;
+    }
+
+    public class CanGoResponse
+    {
+        public List<MapNode> AvailableNodes = [];
+        public string Reason = "";
+    }
+
+    // # Mutating functions
+    // mutate world state and spit out previous world state in serialized form
+    // also tell if mutation failed, no mutation, or there is a mutation
+
+    public class MoveResponse
+    {
+        public MutationState MutationState = MutationState.Mutated;
+        // todo: serialized version of the old world state
+
+        public List<Task<MutationState>> PawnTaskList = new();
+        public string Reason = "";
     }
 }
