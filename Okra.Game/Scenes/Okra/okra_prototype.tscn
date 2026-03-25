@@ -20,11 +20,16 @@ ListLocations = NodePath("camera_2d/list_locations")
 NodeNumber = 64
 Target = NodePath("target")
 
-[node name="character" parent="." unique_id=1349551853 instance=ExtResource("11_oejx6")]
+[node name="character" parent="." unique_id=1349551853 node_paths=PackedStringArray("CharacterLine") instance=ExtResource("11_oejx6")]
 z_index = 1
 position = Vector2(476, 251)
 script = ExtResource("5_te7dg")
+CharacterLine = NodePath("../character_line2d")
 MovementSpeed = 150.0
+
+[node name="character_line2d" type="Line2D" parent="." unique_id=325579531]
+z_index = 9
+default_color = Color(0.5946666, 1, 0.24000001, 1)
 
 [node name="hex_origin" parent="." unique_id=402828305 instance=ExtResource("7_gh4jx")]
 position = Vector2(478, 267)

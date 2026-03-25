@@ -79,10 +79,12 @@ public partial class OkraPrototype : Node
             child.SetMapNode(keyValuePair.Value, this);
         }
 
-        CharacterNode.Position = new Vector2(_character.Position.GamePosition.X, _character.Position.GamePosition.Y);
+        // todo: figure out how to enforce possessing?
         _character.ControllablePawn = CharacterNode;
-
-        State = StateType.Ready;
+        CharacterNode.SetPosition(WorldState.MapData.Graph[Vector3I.Zero]).ContinueWith(_ =>
+        {
+            State = StateType.Ready;
+        });
     }
 
     // todo: when we click ListLocations we go to that location

@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using System.Linq;
 using System.Threading.Tasks;
 using Godot;
 using Okra.Core.HexGame;
@@ -10,6 +11,7 @@ public partial class ControllablePawn : Node2D, IControllablePawn, ISelectable
 {
     private MapNode _positionNode;
     private ISelector? _selector;
+    [Export] public Line2D CharacterLine;
     [Export] public float MovementSpeed = SampleMapData.VectorMultiplier;
 
     public async Task<MutationState> SetPosition(MapNode positionNode)
@@ -40,29 +42,29 @@ public partial class ControllablePawn : Node2D, IControllablePawn, ISelectable
     {
         GD.Print($"Item deselected: {Name}");
         _selector = null;
+        CharacterLine.Points = [];
     }
 
     public void InformSelectorStateChanged()
     {
         Debug.Assert(_selector != null, "_selector != null");
-        if (_selector != null)
+        if (_selector == null)
         {
-            GD.Print($"This should never happen. Stack trace: {Environment.StackTrace}");
+            GD.Print($"This should never happen. Stack trace:\n{Environment.StackTrace}");
             // ReSharper disable once RedundantJumpStatement
             return;
         }
 
         // todo: possibly run async if map too big?
-        var positionList = _positionNode.FindShortestPathTo(_selector!.GetPositionNode());
-
-        // todo: find set of HexPawn from start to finish?
         // todo: delegate this to Core and not Godot
-        // todo: draw lines?
-        // todo: this specific logic should be for character pawn (more specific version of controllable pawn)
+        var path = _positionNode.FindShortestPathTo(_selector!.GetPositionNode());
+        CharacterLine.Points = path.Select(p =>
+            new Vector2(p.GamePosition.X, p.GamePosition.Y)).ToArray();
     }
 
     public override void _Ready()
     {
+        Debug.Assert(CharacterLine != null);
         Debug.Assert(MovementSpeed > 0);
     }
 
