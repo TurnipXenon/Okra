@@ -2,7 +2,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Godot;
 using Okra.Core.HexGame;
-using Okra.Game.Scenes.Okra.Prefabs.hex_pawn;
 
 namespace Okra.Game.Scenes.Okra.Prefabs.target;
 
@@ -13,7 +12,7 @@ public partial class Target : Node2D, ISelector
     public OkraPrototype OkraPrototype;
 
     public ISelectable? SelectedItem;
-    public HexPawn TargetPositionNode;
+    public HexPawn.HexPawn TargetPositionNode;
 
     public MapNode GetPositionNode()
     {
@@ -28,7 +27,7 @@ public partial class Target : Node2D, ISelector
 
     private void TargetCharacterDefault()
     {
-        TargetPositionNode = (HexPawn)OkraPrototype.WorldState.MapData.Graph[Vector3I.Zero].Pawn;
+        TargetPositionNode = (HexPawn.HexPawn)OkraPrototype.WorldState.MapData.Graph[Vector3I.Zero].Pawn;
     }
 
     private async Task WaitForReady()
@@ -136,7 +135,7 @@ public partial class Target : Node2D, ISelector
             if (OkraPrototype.WorldState.MapData.Graph.TryGetValue(currentVector + offset,
                     out var mapNode))
             {
-                TargetPositionNode = (HexPawn)mapNode.Pawn;
+                TargetPositionNode = (HexPawn.HexPawn)mapNode.Pawn;
             }
 
             SelectedItem?.InformSelectorStateChanged();

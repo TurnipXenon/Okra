@@ -3,10 +3,10 @@ using System.Diagnostics;
 using System.Threading.Tasks;
 using Godot;
 using Okra.Core.HexGame;
-using Okra.Game.Scenes.Okra.Prefabs.hex_pawn;
 using Okra.Game.Scenes.Okra.Prefabs.target;
 using Okra.Game.Scenes.Okra.Scripts;
 using Environment = System.Environment;
+using HexPawn = Okra.Game.Scenes.Okra.Prefabs.HexPawn.HexPawn;
 
 namespace Okra.Game.Scenes.Okra;
 

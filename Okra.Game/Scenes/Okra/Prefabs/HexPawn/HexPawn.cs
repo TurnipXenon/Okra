@@ -1,11 +1,11 @@
 using Godot;
 using Okra.Core.HexGame;
 
-namespace Okra.Game.Scenes.Okra.Prefabs.hex_pawn;
+namespace Okra.Game.Scenes.Okra.Prefabs.HexPawn;
 
 public partial class HexPawn : Node2D, IMapNodePawn
 {
-    public MapNode MapNode { get; private set; }
+    public MapNode? MapNode { get; private set; }
 
     public void SetMapNode(MapNode mapNode, OkraPrototype okraPrototype)
     {
