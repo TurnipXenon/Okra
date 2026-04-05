@@ -1,18 +1,10 @@
 using System.Collections.Generic;
-using System.Diagnostics;
 using Godot;
 
 namespace Okra.Core.HexGame;
 
 public static class SampleMapData
 {
-    class SerializedMapNode
-    {
-        public string Name = "";
-        public Vector3 Position = Vector3.Zero;
-        public List<string> OutgoingEdgeList = [];
-    }
-
     // static MapData generateMapFromSerializedMapNode(List<SerializedMapNode> serializedMapNodes)
     // {
     //     MapData mapData = new();
@@ -51,7 +43,14 @@ public static class SampleMapData
     // }
 
     // see positioning based on https://www.redblobgames.com/grids/hexagons/#spacing
-    public static readonly int VectorMultiplier = 150;
+    public const int VectorMultiplier = 512;
+
+    private class SerializedMapNode
+    {
+        public string Name = "";
+        public List<string> OutgoingEdgeList = [];
+        public Vector3 Position = Vector3.Zero;
+    }
     // public static MapData SimpleSample = generateMapFromSerializedMapNode([
     //     new SerializedMapNode
     //     {

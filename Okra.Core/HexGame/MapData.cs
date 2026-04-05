@@ -33,6 +33,30 @@ public class MapData
 
     public float VectorMultiplier { get; private set; }
 
+    public static Vector3I CubeRound(Vector3 fractionalCube)
+    {
+        var roundedCube = new Vector3I(
+            Mathf.RoundToInt(fractionalCube.X),
+            Mathf.RoundToInt(fractionalCube.Y),
+            Mathf.RoundToInt(fractionalCube.Z)
+        );
+        var differenceCube = fractionalCube - roundedCube;
+        if (differenceCube.X > differenceCube.Y && differenceCube.X > differenceCube.Z)
+        {
+            roundedCube.X = -roundedCube.Y - roundedCube.Z;
+        }
+        else if (differenceCube.Y > differenceCube.Z)
+        {
+            roundedCube.Y = -roundedCube.X - roundedCube.Z;
+        }
+        else
+        {
+            roundedCube.Z = -roundedCube.X - roundedCube.Y;
+        }
+
+        return roundedCube;
+    }
+
     public void SetGameOrigin(Vector3 _gameOrigin)
     {
         GameOrigin = _gameOrigin;
@@ -51,6 +75,39 @@ public class MapData
         return new Vector2(
             Mathf.Sqrt(3) * point.X + Mathf.Sqrt(3) / 2 * point.Y,
             3f * point.Y / 2f);
+    }
+
+
+    // todo Axial to Cube coord
+    private static Vector3 FractionalAxialToFractionalCube(Vector2 axial)
+    {
+        return new Vector3(
+            axial.X,
+            axial.Y,
+            -axial.X - axial.Y
+        );
+    }
+
+    /**
+     * It is your responsibility to send normalized game positions here
+     */
+    public static Vector3I Pixel2DToPointyHex(Vector2 gamePosition)
+    {
+        return PixelToPointyHex(new Vector3(
+            gamePosition.X,
+            gamePosition.Y,
+            -gamePosition.X - gamePosition.Y
+        ));
+    }
+
+    /**
+ * It is your responsibility to send normalized game positions here
+ */
+    public static Vector3I PixelToPointyHex(Vector3 gamePosition)
+    {
+        var axial = new Vector2(Mathf.Sqrt(3) / 3 * gamePosition.X - gamePosition.Y / 3,
+            gamePosition.Y * 2 / 3);
+        return CubeRound(FractionalAxialToFractionalCube(axial));
     }
 
     public void Generate(int nodeCount)

@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://bvt1oohnxxnpk"]
+
+[ext_resource type="Script" uid="uid://1j1gur82a1uo" path="res://Scenes/Okra/Prefabs/EditorHexPawn/EditorHexNode.cs" id="1_btywj"]
+
+[node name="EditorHexNode" type="Node2D" unique_id=1699344316]
+script = ExtResource("1_btywj")

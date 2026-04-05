@@ -7,6 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://c22e4epybpmsb" path="res://Scenes/Okra/Prefabs/Target/target.png" id="7_0cqha"]
 [ext_resource type="PackedScene" uid="uid://esk3dg27po8y" path="res://Scenes/Rhythm/RhythmPlayground/slide_beat.tscn" id="7_gh4jx"]
 [ext_resource type="Script" uid="uid://kblie5ucyeb6" path="res://Scenes/Okra/Prefabs/Target/Target.cs" id="8_oh52d"]
+[ext_resource type="PackedScene" uid="uid://bvt1oohnxxnpk" path="res://Scenes/Okra/Prefabs/EditorHexPawn/editor_hex_node.tscn" id="9_jwbyu"]
 [ext_resource type="PackedScene" uid="uid://biqwufgdlyr5u" path="res://Scenes/Rhythm/RhythmPlayground/trigger.tscn" id="11_oejx6"]
 
 [node name="OkraPrototype" type="Node2D" unique_id=1394346189 node_paths=PackedStringArray("BtnChooseCharacter", "BtnClear", "CharacterNode", "HexOrigin", "ListLocations", "Target")]
@@ -34,8 +35,24 @@ default_color = Color(0.5946666, 1, 0.24000001, 1)
 
 [node name="HexOrigin" parent="." unique_id=402828305 instance=ExtResource("7_gh4jx")]
 position = Vector2(478, 267)
-scale = Vector2(0.325, 0.325)
 script = null
+
+[node name="EditorHexNode" parent="HexOrigin" unique_id=1699344316 instance=ExtResource("9_jwbyu")]
+position = Vector2(443.405, 768)
+
+[node name="EditorHexNode2" parent="HexOrigin" unique_id=574139588 instance=ExtResource("9_jwbyu")]
+position = Vector2(-886.81, 0)
+
+[node name="EditorHexNode3" parent="HexOrigin" unique_id=92883584 instance=ExtResource("9_jwbyu")]
+position = Vector2(-443.405, 768)
+
+[node name="EditorHexNode4" parent="HexOrigin" unique_id=1150241506 instance=ExtResource("9_jwbyu")]
+position = Vector2(-1330.215, 768)
+
+[node name="EditorHexNode5" parent="HexOrigin" unique_id=2004123999 instance=ExtResource("9_jwbyu")]
+position = Vector2(-443.405, -768)
+
+[node name="EditorHexNode6" parent="HexOrigin" unique_id=158922330 instance=ExtResource("9_jwbyu")]
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1020047715 node_paths=PackedStringArray("Target")]
 position = Vector2(479, 266)
@@ -80,7 +97,5 @@ scale = Vector2(0.25, 0.25)
 texture = ExtResource("7_0cqha")
 script = ExtResource("8_oh52d")
 MovementSpeed = 400.0
-
-[node name="EditorHexNode" type="Node2D" parent="." unique_id=1262863363]
 
 [connection signal="pressed" from="Camera2D/btn_choose_character" to="Camera2D/btn_choose_character" method="OnClick"]
