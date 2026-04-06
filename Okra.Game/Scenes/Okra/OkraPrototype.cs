@@ -54,6 +54,11 @@ public partial class OkraPrototype : Node
         Debug.Assert(HexOrigin != null, "HexOrigin != null");
         Debug.Assert(NodeNumber >= 4, "NodeNumber >= 4");
         Debug.Assert(HexMapResource != null, "HexMapResource != null");
+        if (!HexMapResource.GetPath().EndsWith(".hexmap.json"))
+        {
+            GD.PrintErr("HexMapResource should end in *.hexmap.json");
+            return;
+        }
 
         Debug.Assert(Target != null, "Target != null");
         Target.OkraPrototype = this;
@@ -70,7 +75,6 @@ public partial class OkraPrototype : Node
         }
 
         var mapDto = JsonSerializer.Deserialize<MapDataDto>(f.GetAsText());
-        GD.Print(JsonSerializer.Serialize(mapDto));
         if (mapDto == null)
         {
             GD.PrintErr("OkraPrototype._Ready: mapDto == null");

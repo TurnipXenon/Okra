@@ -45,6 +45,14 @@ public partial class EditorHexNode : Node2D, IMapNodePawn
     // 3. we moved?
     // todo: how to watch parent but also not cause NullExceptionError???
 
+    public static void DrawHex(Node2D node2D)
+    {
+        // We are going to paint with this color.
+        var godotBlue = new Color("478cbf");
+        // We pass the array of Vector2 to draw the shape.
+        node2D.DrawPolygon(MultiplyAllVectors(), [godotBlue,]);
+    }
+
     private static Vector2[] MultiplyAllVectors()
     {
         return Enumerable.Range(0, 6)
@@ -63,10 +71,7 @@ public partial class EditorHexNode : Node2D, IMapNodePawn
 
     public override void _Draw()
     {
-        // We are going to paint with this color.
-        var godotBlue = new Color("478cbf");
-        // We pass the array of Vector2 to draw the shape.
-        DrawPolygon(MultiplyAllVectors(), [godotBlue,]);
+        DrawHex(this);
     }
 
 

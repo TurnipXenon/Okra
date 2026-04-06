@@ -9,7 +9,7 @@
 [ext_resource type="Script" uid="uid://kblie5ucyeb6" path="res://Scenes/Okra/Prefabs/Target/Target.cs" id="8_oh52d"]
 [ext_resource type="Script" uid="uid://cs2csf1aydpef" path="res://Scenes/Okra/Scripts/EditorHexMapRoot.cs" id="9_0oq1o"]
 [ext_resource type="PackedScene" uid="uid://bvt1oohnxxnpk" path="res://Scenes/Okra/Prefabs/EditorHexPawn/editor_hex_node.tscn" id="9_jwbyu"]
-[ext_resource type="JSON" path="res://Scenes/Okra/sample_map_1.json" id="10_8cc1j"]
+[ext_resource type="JSON" path="res://Scenes/Okra/sample_map_1.hexmap.json" id="10_8cc1j"]
 [ext_resource type="PackedScene" uid="uid://biqwufgdlyr5u" path="res://Scenes/Rhythm/RhythmPlayground/trigger.tscn" id="11_oejx6"]
 
 [node name="OkraPrototype" type="Node2D" unique_id=1394346189 node_paths=PackedStringArray("BtnChooseCharacter", "BtnClear", "CharacterNode", "HexOrigin", "ListLocations", "Target")]
@@ -25,7 +25,6 @@ NodeNumber = 64
 Target = NodePath("Target")
 
 [node name="Character" parent="." unique_id=1349551853 node_paths=PackedStringArray("CharacterLine") instance=ExtResource("11_oejx6")]
-visible = false
 z_index = 1
 position = Vector2(476, 251)
 script = ExtResource("5_te7dg")
@@ -80,32 +79,75 @@ item_0/text = "Test"
 item_1/text = "Test2"
 
 [node name="Target" type="Sprite2D" parent="." unique_id=466347001]
+z_index = 5
 position = Vector2(477, 256)
 scale = Vector2(0.25, 0.25)
 texture = ExtResource("7_0cqha")
 script = ExtResource("8_oh52d")
 MovementSpeed = 400.0
 
-[node name="HexOriginEditor" type="Node2D" parent="." unique_id=1118833509]
+[node name="EditorHexMapRoot" type="Node2D" parent="." unique_id=1118833509]
 position = Vector2(478, 267)
 script = ExtResource("9_0oq1o")
 HexMapResource = ExtResource("10_8cc1j")
 
-[node name="EditorHexNode" parent="HexOriginEditor" unique_id=1699344316 instance=ExtResource("9_jwbyu")]
-position = Vector2(221.7025, 0)
+[node name="EditorHexNode" parent="EditorHexMapRoot" unique_id=1699344316 instance=ExtResource("9_jwbyu")]
+position = Vector2(110.85125, 0)
 
-[node name="EditorHexNode2" parent="HexOriginEditor" unique_id=574139588 instance=ExtResource("9_jwbyu")]
-position = Vector2(-221.7025, 0)
+[node name="EditorHexNode2" parent="EditorHexMapRoot" unique_id=574139588 instance=ExtResource("9_jwbyu")]
+position = Vector2(-110.85125, 0)
 
-[node name="EditorHexNode3" parent="HexOriginEditor" unique_id=92883584 instance=ExtResource("9_jwbyu")]
-position = Vector2(110.85125, 192)
+[node name="EditorHexNode3" parent="EditorHexMapRoot" unique_id=92883584 instance=ExtResource("9_jwbyu")]
+position = Vector2(0, 192)
 
-[node name="EditorHexNode4" parent="HexOriginEditor" unique_id=1150241506 instance=ExtResource("9_jwbyu")]
+[node name="EditorHexNode4" parent="EditorHexMapRoot" unique_id=1150241506 instance=ExtResource("9_jwbyu")]
+position = Vector2(-55.425625, 96)
+
+[node name="EditorHexNode8" parent="EditorHexMapRoot" unique_id=1847688690 instance=ExtResource("9_jwbyu")]
 position = Vector2(-110.85125, 192)
 
-[node name="EditorHexNode5" parent="HexOriginEditor" unique_id=2004123999 instance=ExtResource("9_jwbyu")]
-position = Vector2(332.55374, 192)
+[node name="EditorHexNode9" parent="EditorHexMapRoot" unique_id=893547334 instance=ExtResource("9_jwbyu")]
+position = Vector2(-110.85125, 192)
 
-[node name="EditorHexNode6" parent="HexOriginEditor" unique_id=158922330 instance=ExtResource("9_jwbyu")]
+[node name="EditorHexNode10" parent="EditorHexMapRoot" unique_id=1329174438 instance=ExtResource("9_jwbyu")]
+position = Vector2(-221.70248, 192)
+
+[node name="EditorHexNode11" parent="EditorHexMapRoot" unique_id=1912797942 instance=ExtResource("9_jwbyu")]
+position = Vector2(-221.70248, 192)
+
+[node name="EditorHexNode12" parent="EditorHexMapRoot" unique_id=155996042 instance=ExtResource("9_jwbyu")]
+position = Vector2(-221.70248, 192)
+
+[node name="EditorHexNode13" parent="EditorHexMapRoot" unique_id=1206262632 instance=ExtResource("9_jwbyu")]
+position = Vector2(-332.55374, 192)
+
+[node name="EditorHexNode17" parent="EditorHexMapRoot" unique_id=2083776741 instance=ExtResource("9_jwbyu")]
+position = Vector2(-277.1281, 96)
+
+[node name="EditorHexNode18" parent="EditorHexMapRoot" unique_id=2097441022 instance=ExtResource("9_jwbyu")]
+position = Vector2(-332.55374, 0)
+
+[node name="EditorHexNode19" parent="EditorHexMapRoot" unique_id=139713810 instance=ExtResource("9_jwbyu")]
+position = Vector2(-387.97937, -96)
+
+[node name="EditorHexNode20" parent="EditorHexMapRoot" unique_id=1132644524 instance=ExtResource("9_jwbyu")]
+position = Vector2(-498.83063, -96)
+
+[node name="EditorHexNode14" parent="EditorHexMapRoot" unique_id=113860327 instance=ExtResource("9_jwbyu")]
+position = Vector2(-443.40497, 192)
+
+[node name="EditorHexNode15" parent="EditorHexMapRoot" unique_id=44857705 instance=ExtResource("9_jwbyu")]
+position = Vector2(-498.8306, 96)
+
+[node name="EditorHexNode16" parent="EditorHexMapRoot" unique_id=832284988 instance=ExtResource("9_jwbyu")]
+position = Vector2(-554.2562, 0)
+
+[node name="EditorHexNode5" parent="EditorHexMapRoot" unique_id=2004123999 instance=ExtResource("9_jwbyu")]
+position = Vector2(110.85125, 192)
+
+[node name="EditorHexNode7" parent="EditorHexMapRoot" unique_id=1540433962 instance=ExtResource("9_jwbyu")]
+position = Vector2(166.27687, 96)
+
+[node name="EditorHexNode6" parent="EditorHexMapRoot" unique_id=158922330 instance=ExtResource("9_jwbyu")]
 
 [connection signal="pressed" from="Camera2D/btn_choose_character" to="Camera2D/btn_choose_character" method="OnClick"]

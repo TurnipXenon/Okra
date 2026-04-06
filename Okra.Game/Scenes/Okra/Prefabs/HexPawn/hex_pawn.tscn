@@ -1,8 +1,6 @@
 [gd_scene format=3 uid="uid://dch3lvcpcl2lt"]
 
-[ext_resource type="Texture2D" uid="uid://corpi772is0cb" path="res://Assets/Placeholder/white_square.png" id="1_6qvlh"]
-[ext_resource type="Script" uid="uid://d1tg0oebudhik" path="res://Scenes/Okra/Prefabs/hex_pawn/HexPawn.cs" id="2_ughn7"]
+[ext_resource type="Script" uid="uid://d1tg0oebudhik" path="res://Scenes/Okra/Prefabs/HexPawn/HexPawn.cs" id="2_ughn7"]
 
 [node name="hex_prefab" type="Sprite2D" unique_id=288991943]
-texture = ExtResource("1_6qvlh")
 script = ExtResource("2_ughn7")

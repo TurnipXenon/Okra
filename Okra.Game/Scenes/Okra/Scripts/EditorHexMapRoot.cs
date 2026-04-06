@@ -14,11 +14,25 @@ public partial class EditorHexMapRoot : Node2D
 
     [ExportToolButton("Save map")] private Callable SaveCurrentMapToJsonButton => Callable.From(SaveCurrentMapToJson);
 
+    public override void _Ready()
+    {
+        if (!Engine.IsEditorHint())
+        {
+            QueueFree();
+        }
+    }
+
     private void SaveCurrentMapToJson()
     {
         if (HexMapResource == null)
         {
             GD.PushWarning("HexMapResource not set to a file to write to");
+            return;
+        }
+
+        if (!HexMapResource.GetPath().EndsWith(".hexmap.json"))
+        {
+            GD.PrintErr("HexMapResource should end in *.hexmap.json");
             return;
         }
 
