@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Text.Json;
 using System.Threading.Tasks;
 using Godot;
 using Okra.Core.HexGame;
@@ -28,6 +29,7 @@ public partial class OkraPrototype : Node
 
     // GameObjects
     [Export] public ControllablePawn CharacterNode;
+    [Export] public Resource? HexMapResource;
     [Export] public Node2D HexOrigin;
 
     // Prototypes
@@ -39,7 +41,6 @@ public partial class OkraPrototype : Node
 
     public StateType State = StateType.Preparing;
     [Export] public Target Target;
-    [Export] public float VectorMultiplier = 100;
 
     public WorldState WorldState;
 
@@ -52,6 +53,7 @@ public partial class OkraPrototype : Node
         Debug.Assert(HexPrefab != null, "HexPrototype != null");
         Debug.Assert(HexOrigin != null, "HexOrigin != null");
         Debug.Assert(NodeNumber >= 4, "NodeNumber >= 4");
+        Debug.Assert(HexMapResource != null, "HexMapResource != null");
 
         Debug.Assert(Target != null, "Target != null");
         Target.OkraPrototype = this;
@@ -59,9 +61,24 @@ public partial class OkraPrototype : Node
         // todo: defer in the future?
 
         WorldState = new WorldState();
-        WorldState.MapData.SetGameOrigin(new Vector3(HexOrigin.Position.X, HexOrigin.Position.Y, 0));
-        WorldState.MapData.SetVectorMultiplier(VectorMultiplier);
-        WorldState.MapData.Generate(NodeNumber);
+
+        using var f = FileAccess.Open(HexMapResource.GetPath(), FileAccess.ModeFlags.Read);
+        if (f == null)
+        {
+            GD.PrintErr("OkraPrototype._Ready: Missing HexMapResource file");
+            return;
+        }
+
+        var mapDto = JsonSerializer.Deserialize<MapDataDto>(f.GetAsText());
+        GD.Print(JsonSerializer.Serialize(mapDto));
+        if (mapDto == null)
+        {
+            GD.PrintErr("OkraPrototype._Ready: mapDto == null");
+            return;
+        }
+
+        WorldState.MapData = mapDto.ToMapData(HexOrigin);
+
         _character = new ControllableObject();
         _character.SetWorldState(WorldState);
         _character.SetPosition(WorldState.MapData.Graph[Vector3I.Zero]);

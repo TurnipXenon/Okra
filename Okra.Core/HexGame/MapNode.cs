@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.Serialization;
 using System.Text.Json.Serialization;
 using Godot;
 
@@ -8,9 +7,9 @@ namespace Okra.Core.HexGame;
 
 // assume as pointy top hex
 // custom serialization: https://stackoverflow.com/a/35088054/10024566
-public class MapNode
+public class MapNode : IJsonOnSerializing, IJsonOnDeserialized
 {
-    [JsonInclude] private readonly int[] _hexPosition = new int[3];
+    [JsonInclude] private int[] _hexPosition = new int[3];
 
     // todo: calculated based on Parent Origin + Grid Position
     [JsonIgnore] private Vector3 _gamePosition;
@@ -42,7 +41,7 @@ public class MapNode
 
     [JsonIgnore] public string Name => $"Node {HexPosition.ToString()}";
 
-    [JsonIgnore] public MapData? Parent { get; init; }
+    [JsonIgnore] public MapData? Parent { get; set; }
 
     [JsonIgnore]
     public Vector3 GamePosition
@@ -62,6 +61,22 @@ public class MapNode
     }
 
     [JsonIgnore] public IMapNodePawn? Pawn { get; set; }
+
+    public void OnDeserialized()
+    {
+        for (var i = 0; i < _hexPosition.Length; i++)
+        {
+            HexPosition[i] = _hexPosition[i];
+        }
+    }
+
+    public void OnSerializing()
+    {
+        for (var i = 0; i < _hexPosition.Length; i++)
+        {
+            _hexPosition[i] = HexPosition[i];
+        }
+    }
 
     public List<MapNode> FindShortestPathTo(MapNode destination)
     {
@@ -93,23 +108,5 @@ public class MapNode
         }
 
         return [];
-    }
-
-    [OnSerializing]
-    private void OnSerializing()
-    {
-        for (var i = 0; i < _hexPosition.Length; i++)
-        {
-            _hexPosition[i] = HexPosition[i];
-        }
-    }
-
-    [OnDeserialized]
-    private void OnDeserialized()
-    {
-        for (var i = 0; i < _hexPosition.Length; i++)
-        {
-            HexPosition[i] = _hexPosition[i];
-        }
     }
 }

@@ -1,47 +1,47 @@
 {
   "Graph": [
-    {
-      "_hexPosition": [
-        0,
-        0,
-        0
-      ]
-    },
-    {
-      "_hexPosition": [
-        0,
-        0,
-        0
-      ]
-    },
-    {
-      "_hexPosition": [
-        0,
-        0,
-        0
-      ]
-    },
-    {
-      "_hexPosition": [
-        0,
-        0,
-        0
-      ]
-    },
-    {
-      "_hexPosition": [
-        0,
-        0,
-        0
-      ]
-    },
-    {
-      "_hexPosition": [
-        0,
-        0,
-        0
-      ]
-    }
+	{
+	  "_hexPosition": [
+		1,
+		0,
+		-1
+	  ]
+	},
+	{
+	  "_hexPosition": [
+		-1,
+		0,
+		1
+	  ]
+	},
+	{
+	  "_hexPosition": [
+		0,
+		1,
+		-1
+	  ]
+	},
+	{
+	  "_hexPosition": [
+		-1,
+		1,
+		0
+	  ]
+	},
+	{
+	  "_hexPosition": [
+		1,
+		1,
+		-2
+	  ]
+	},
+	{
+	  "_hexPosition": [
+		0,
+		0,
+		0
+	  ]
+	}
   ],
   "VectorMultiplier": 128
 }

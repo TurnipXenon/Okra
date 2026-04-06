@@ -11,6 +11,7 @@ namespace Okra.Game.Scenes.Okra.Prefabs.EditorHexPawn;
 public partial class EditorHexNode : Node2D, IMapNodePawn
 {
     private Timer? _stopTimer;
+
     public Vector3I HexPosition { get; private set; }
 
     private void DetectHexPosition()

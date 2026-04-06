@@ -1,4 +1,5 @@
 using System.Linq;
+using Godot;
 
 namespace Okra.Core.HexGame;
 
@@ -17,5 +18,19 @@ public class MapDataDto
             VectorMultiplier = mapData.VectorMultiplier,
             Graph = mapData.Graph.Values.ToArray(),
         };
+    }
+
+    public MapData ToMapData(Node2D hexOrigin)
+    {
+        var mapData = new MapData();
+        mapData.SetGameOrigin(new Vector3(hexOrigin.Position.X, hexOrigin.Position.Y, 0));
+        mapData.SetVectorMultiplier(VectorMultiplier);
+        foreach (var mapNode in Graph)
+        {
+            mapNode.Parent = mapData;
+            mapData.Graph[mapNode.HexPosition] = mapNode;
+        }
+
+        return mapData;
     }
 }
