@@ -2,15 +2,15 @@
 
 [ext_resource type="Script" uid="uid://chaku54v7ou0v" path="res://Scenes/Okra/OkraPrototype.cs" id="1_wji21"]
 [ext_resource type="PackedScene" uid="uid://dch3lvcpcl2lt" path="res://Scenes/Okra/Prefabs/HexPawn/hex_pawn.tscn" id="2_78itp"]
+[ext_resource type="Texture2D" uid="uid://btpesyqrthgm3" path="res://Assets/Placeholder/trigger.png" id="4_8cc1j"]
 [ext_resource type="Script" uid="uid://bl34bmmh5vq8j" path="res://Scenes/Okra/Scripts/ControllablePawn.cs" id="5_te7dg"]
+[ext_resource type="Texture2D" uid="uid://cwf30r7ek5utu" path="res://Assets/Placeholder/arrow.png" id="6_ic5gf"]
 [ext_resource type="Script" uid="uid://p3fie88drwpa" path="res://Scenes/Okra/Scripts/OkraCamera.cs" id="6_yp0i3"]
 [ext_resource type="Texture2D" uid="uid://c22e4epybpmsb" path="res://Scenes/Okra/Prefabs/Target/target.png" id="7_0cqha"]
-[ext_resource type="PackedScene" uid="uid://esk3dg27po8y" path="res://Scenes/Rhythm/RhythmPlayground/slide_beat.tscn" id="7_gh4jx"]
 [ext_resource type="Script" uid="uid://kblie5ucyeb6" path="res://Scenes/Okra/Prefabs/Target/Target.cs" id="8_oh52d"]
 [ext_resource type="Script" uid="uid://cs2csf1aydpef" path="res://Scenes/Okra/Scripts/EditorHexMapRoot.cs" id="9_0oq1o"]
 [ext_resource type="PackedScene" uid="uid://bvt1oohnxxnpk" path="res://Scenes/Okra/Prefabs/EditorHexPawn/editor_hex_node.tscn" id="9_jwbyu"]
 [ext_resource type="JSON" path="res://Scenes/Okra/sample_map_1.hexmap.json" id="10_8cc1j"]
-[ext_resource type="PackedScene" uid="uid://biqwufgdlyr5u" path="res://Scenes/Rhythm/RhythmPlayground/trigger.tscn" id="11_oejx6"]
 
 [node name="OkraPrototype" type="Node2D" unique_id=1394346189 node_paths=PackedStringArray("BtnChooseCharacter", "BtnClear", "CharacterNode", "HexOrigin", "ListLocations", "Target")]
 script = ExtResource("1_wji21")
@@ -24,22 +24,22 @@ ListLocations = NodePath("Camera2D/list_locations")
 NodeNumber = 64
 Target = NodePath("Target")
 
-[node name="Character" parent="." unique_id=1349551853 node_paths=PackedStringArray("CharacterLine") instance=ExtResource("11_oejx6")]
+[node name="Character" type="Sprite2D" parent="." unique_id=1349551853 node_paths=PackedStringArray("CharacterLine")]
 z_index = 1
 position = Vector2(476, 251)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("4_8cc1j")
 script = ExtResource("5_te7dg")
 CharacterLine = NodePath("../CharacterLine2d")
-MaxWalkDistance = 5
 MovementSpeed = 750.0
 
 [node name="CharacterLine2d" type="Line2D" parent="." unique_id=325579531]
 z_index = 9
 default_color = Color(0.5946666, 1, 0.24000001, 1)
 
-[node name="HexOrigin" parent="." unique_id=402828305 instance=ExtResource("7_gh4jx")]
+[node name="HexOrigin" type="Sprite2D" parent="." unique_id=402828305]
 position = Vector2(478, 267)
-scale = Vector2(1, 1)
-script = null
+texture = ExtResource("6_ic5gf")
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1020047715 node_paths=PackedStringArray("Target")]
 position = Vector2(479, 266)
