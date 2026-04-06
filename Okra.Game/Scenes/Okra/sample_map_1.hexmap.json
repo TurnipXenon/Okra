@@ -1,0 +1,124 @@
+{
+  "Graph": [
+	{
+	  "HexPosition": [
+		1,
+		0,
+		-1
+	  ]
+	},
+	{
+	  "HexPosition": [
+		-1,
+		0,
+		1
+	  ]
+	},
+	{
+	  "HexPosition": [
+		-1,
+		2,
+		-1
+	  ]
+	},
+	{
+	  "HexPosition": [
+		-1,
+		1,
+		0
+	  ]
+	},
+	{
+	  "HexPosition": [
+		-2,
+		2,
+		0
+	  ]
+	},
+	{
+	  "HexPosition": [
+		-3,
+		2,
+		1
+	  ]
+	},
+	{
+	  "HexPosition": [
+		-4,
+		2,
+		2
+	  ]
+	},
+	{
+	  "HexPosition": [
+		-3,
+		1,
+		2
+	  ]
+	},
+	{
+	  "HexPosition": [
+		-3,
+		0,
+		3
+	  ]
+	},
+	{
+	  "HexPosition": [
+		-3,
+		-1,
+		4
+	  ]
+	},
+	{
+	  "HexPosition": [
+		-4,
+		-1,
+		5
+	  ]
+	},
+	{
+	  "HexPosition": [
+		-5,
+		2,
+		3
+	  ]
+	},
+	{
+	  "HexPosition": [
+		-5,
+		1,
+		4
+	  ]
+	},
+	{
+	  "HexPosition": [
+		-5,
+		0,
+		5
+	  ]
+	},
+	{
+	  "HexPosition": [
+		0,
+		2,
+		-2
+	  ]
+	},
+	{
+	  "HexPosition": [
+		1,
+		1,
+		-2
+	  ]
+	},
+	{
+	  "HexPosition": [
+		0,
+		0,
+		0
+	  ]
+	}
+  ],
+  "VectorMultiplier": 64
+}

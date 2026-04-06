@@ -2,7 +2,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Godot;
 using Okra.Core.HexGame;
-using Okra.Game.Scenes.Okra.Prefabs.hex_pawn;
 
 namespace Okra.Game.Scenes.Okra.Prefabs.target;
 
@@ -13,7 +12,7 @@ public partial class Target : Node2D, ISelector
     public OkraPrototype OkraPrototype;
 
     public ISelectable? SelectedItem;
-    public HexPawn TargetPositionNode;
+    public HexPawn.HexPawn? TargetPositionNode;
 
     public MapNode GetPositionNode()
     {
@@ -28,7 +27,7 @@ public partial class Target : Node2D, ISelector
 
     private void TargetCharacterDefault()
     {
-        TargetPositionNode = (HexPawn)OkraPrototype.WorldState.MapData.Graph[Vector3I.Zero].Pawn;
+        TargetPositionNode = (HexPawn.HexPawn)OkraPrototype.WorldState.MapData.Graph[Vector3I.Zero].Pawn;
     }
 
     private async Task WaitForReady()
@@ -56,6 +55,48 @@ public partial class Target : Node2D, ISelector
         if (TargetPositionNode.Position != Position)
         {
             Position = Position.MoveToward(TargetPositionNode.Position, (float)delta * MovementSpeed);
+        }
+    }
+
+    private void HandleMoveInput(InputEvent @event, bool isAlt)
+    {
+        var hasAlt = false;
+
+        var offset = Vector3I.Zero;
+        if (@event.IsActionPressed("ui_left"))
+        {
+            offset = MapData.HexLeft;
+        }
+        else if (@event.IsActionPressed("ui_right"))
+        {
+            offset = MapData.HexRight;
+        }
+        else if (@event.IsActionPressed("ui_up"))
+        {
+            offset = isAlt ? MapData.HexUpAlt : MapData.HexUp;
+            hasAlt = true;
+        }
+        else if (@event.IsActionPressed("ui_down"))
+        {
+            offset = isAlt ? MapData.HexDownAlt : MapData.HexDown;
+            hasAlt = true;
+        }
+
+        if (offset != Vector3I.Zero)
+        {
+            var currentVector = TargetPositionNode.MapNode.HexPosition;
+            if (OkraPrototype.WorldState.MapData.Graph.TryGetValue(currentVector + offset,
+                    out var mapNode))
+            {
+                TargetPositionNode = (HexPawn.HexPawn)mapNode.Pawn;
+            }
+            else if (hasAlt && !isAlt)
+            {
+                HandleMoveInput(@event, true);
+                return;
+            }
+
+            SelectedItem?.InformSelectorStateChanged();
         }
     }
 
@@ -112,35 +153,7 @@ public partial class Target : Node2D, ISelector
             return;
         }
 
-        var offset = Vector3I.Zero;
-        if (@event.IsActionPressed("ui_left"))
-        {
-            offset = MapData.HexLeft;
-        }
-        else if (@event.IsActionPressed("ui_right"))
-        {
-            offset = MapData.HexRight;
-        }
-        else if (@event.IsActionPressed("ui_up"))
-        {
-            offset = MapData.HexUp;
-        }
-        else if (@event.IsActionPressed("ui_down"))
-        {
-            offset = MapData.HexDown;
-        }
-
-        if (offset != Vector3I.Zero)
-        {
-            var currentVector = TargetPositionNode.MapNode.HexPosition;
-            if (OkraPrototype.WorldState.MapData.Graph.TryGetValue(currentVector + offset,
-                    out var mapNode))
-            {
-                TargetPositionNode = (HexPawn)mapNode.Pawn;
-            }
-
-            SelectedItem?.InformSelectorStateChanged();
-        }
+        HandleMoveInput(@event, false);
 
         _ignoreInput = false;
     }

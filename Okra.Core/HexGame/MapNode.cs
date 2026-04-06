@@ -5,6 +5,7 @@ using Godot;
 namespace Okra.Core.HexGame;
 
 // assume as pointy top hex
+// custom serialization: https://stackoverflow.com/a/35088054/10024566
 public class MapNode
 {
     // todo: calculated based on Parent Origin + Grid Position
@@ -20,6 +21,11 @@ public class MapNode
             List<MapNode> neighborNodes = [];
             MapData.HexOffset.ForEach(offset =>
             {
+                if (Parent == null)
+                {
+                    return;
+                }
+
                 if (Parent.Graph.TryGetValue(HexPosition + offset, out var possibleNeighbor))
                 {
                     neighborNodes.Add(possibleNeighbor);
@@ -30,13 +36,14 @@ public class MapNode
     }
 
     public string Name => $"Node {HexPosition.ToString()}";
-    public required MapData Parent { get; init; }
+
+    public MapData? Parent { get; set; }
 
     public Vector3 GamePosition
     {
         get
         {
-            if (Parent.CalculatedNode.Contains(HexPosition))
+            if ((bool)Parent?.CalculatedNode.Contains(HexPosition))
             {
                 return _gamePosition;
             }
@@ -48,7 +55,7 @@ public class MapNode
         }
     }
 
-    public IMapNodePawn Pawn { get; set; }
+    public IMapNodePawn? Pawn { get; set; }
 
     public List<MapNode> FindShortestPathTo(MapNode destination)
     {

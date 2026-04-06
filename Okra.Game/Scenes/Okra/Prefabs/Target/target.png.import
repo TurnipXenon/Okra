@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://c22e4epybpmsb"
-path="res://.godot/imported/target.png-004513f2d4dbbe35f97854cca027961d.ctex"
+path="res://.godot/imported/target.png-3987eae06a86b6e44035645306ace211.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Scenes/Okra/Prefabs/target/target.png"
-dest_files=["res://.godot/imported/target.png-004513f2d4dbbe35f97854cca027961d.ctex"]
+source_file="res://Scenes/Okra/Prefabs/Target/target.png"
+dest_files=["res://.godot/imported/target.png-3987eae06a86b6e44035645306ace211.ctex"]
 
 [params]
 

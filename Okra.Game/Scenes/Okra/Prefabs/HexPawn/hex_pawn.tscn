@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://dch3lvcpcl2lt"]
+
+[ext_resource type="Script" uid="uid://d1tg0oebudhik" path="res://Scenes/Okra/Prefabs/HexPawn/HexPawn.cs" id="2_ughn7"]
+
+[node name="hex_prefab" type="Sprite2D" unique_id=288991943]
+script = ExtResource("2_ughn7")
