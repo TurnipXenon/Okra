@@ -43,7 +43,7 @@ public static class SampleMapData
     // }
 
     // see positioning based on https://www.redblobgames.com/grids/hexagons/#spacing
-    public const int VectorMultiplier = 512;
+    public const int VectorMultiplier = 128;
 
     private class SerializedMapNode
     {

@@ -1,18 +1,24 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
+using System.Text.Json.Serialization;
 using Godot;
 
 namespace Okra.Core.HexGame;
 
 // assume as pointy top hex
+// custom serialization: https://stackoverflow.com/a/35088054/10024566
 public class MapNode
 {
+    [JsonInclude] private readonly int[] _hexPosition = new int[3];
+
     // todo: calculated based on Parent Origin + Grid Position
-    private Vector3 _gamePosition;
+    [JsonIgnore] private Vector3 _gamePosition;
 
     public Vector3I HexPosition = Vector3I.Zero;
 
     // todo: cache?
+    [JsonIgnore]
     public List<MapNode> OutgoingEdgeList
     {
         get
@@ -20,6 +26,11 @@ public class MapNode
             List<MapNode> neighborNodes = [];
             MapData.HexOffset.ForEach(offset =>
             {
+                if (Parent == null)
+                {
+                    return;
+                }
+
                 if (Parent.Graph.TryGetValue(HexPosition + offset, out var possibleNeighbor))
                 {
                     neighborNodes.Add(possibleNeighbor);
@@ -29,14 +40,16 @@ public class MapNode
         }
     }
 
-    public string Name => $"Node {HexPosition.ToString()}";
-    public required MapData Parent { get; init; }
+    [JsonIgnore] public string Name => $"Node {HexPosition.ToString()}";
 
+    [JsonIgnore] public MapData? Parent { get; init; }
+
+    [JsonIgnore]
     public Vector3 GamePosition
     {
         get
         {
-            if (Parent.CalculatedNode.Contains(HexPosition))
+            if ((bool)Parent?.CalculatedNode.Contains(HexPosition))
             {
                 return _gamePosition;
             }
@@ -48,7 +61,7 @@ public class MapNode
         }
     }
 
-    public IMapNodePawn Pawn { get; set; }
+    [JsonIgnore] public IMapNodePawn? Pawn { get; set; }
 
     public List<MapNode> FindShortestPathTo(MapNode destination)
     {
@@ -80,5 +93,23 @@ public class MapNode
         }
 
         return [];
+    }
+
+    [OnSerializing]
+    private void OnSerializing()
+    {
+        for (var i = 0; i < _hexPosition.Length; i++)
+        {
+            _hexPosition[i] = HexPosition[i];
+        }
+    }
+
+    [OnDeserialized]
+    private void OnDeserialized()
+    {
+        for (var i = 0; i < _hexPosition.Length; i++)
+        {
+            HexPosition[i] = _hexPosition[i];
+        }
     }
 }

@@ -11,24 +11,28 @@ namespace Okra.Game.Scenes.Okra.Prefabs.EditorHexPawn;
 public partial class EditorHexNode : Node2D, IMapNodePawn
 {
     private Timer? _stopTimer;
+    public Vector3I HexPosition { get; private set; }
+
+    private void DetectHexPosition()
+    {
+        // position is based on parent so no transformations needed!
+        SetNotifyLocalTransform(false);
+        HexPosition = MapData.Pixel2DToPointyHex(Position / SampleMapData.VectorMultiplier);
+        Position = MapData.PointyHexToPixel(HexPosition) * SampleMapData.VectorMultiplier;
+        SetNotifyLocalTransform(true);
+    }
 
     public override void _Ready()
     {
         if (Engine.IsEditorHint())
         {
+            DetectHexPosition();
+
             SetNotifyLocalTransform(true);
             _stopTimer = new Timer();
             _stopTimer.WaitTime = 0.5;
             _stopTimer.OneShot = true;
-            _stopTimer.Timeout += () =>
-            {
-                // position is based on parent so no transformations needed!
-                SetNotifyLocalTransform(false);
-                var hexPosition = MapData.Pixel2DToPointyHex(Position / SampleMapData.VectorMultiplier);
-                GD.Print($"{Position} => {hexPosition}");
-                Position = MapData.PointyHexToPixel(hexPosition) * SampleMapData.VectorMultiplier;
-                SetNotifyLocalTransform(true);
-            };
+            _stopTimer.Timeout += DetectHexPosition;
             AddChild(_stopTimer);
         }
     }
